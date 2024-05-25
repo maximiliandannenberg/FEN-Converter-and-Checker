@@ -17,16 +17,17 @@ class FEN_Games{
 
 FEN_Games CreateFEN(std::string FEN);
 
-
 std::vector<char> FEN_converter(std::string FEN);
 
 bool FEN_Check_Piece_Count(std::vector<char> FEN_converted);
 
 void board(std::vector<char> FEN_converted);
 
-char** boardinitiliazer(int rows, int cols);
+char** boardinitiliazer(int rows, int cols, FEN_Games game);
 
-//array setboard(std::vector<char> FEN_converted);
+void printboard(char** myboard, int rows, int cols);
+
+void deletemyboard(char** myboard, int rows, int cols);
 
 
 
