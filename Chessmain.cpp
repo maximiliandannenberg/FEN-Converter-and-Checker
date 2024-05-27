@@ -28,9 +28,6 @@ segmentation fault due to return value from Piecemovement
 */
 
 
-
-//This is a test to see if I am in the new branch
-
 int main() {
 
         std::vector<char> FENvalue;
@@ -54,6 +51,8 @@ int main() {
             
         }
 
+
+
     int rows = 8;
     int cols = 8;
     char** myboard = boardinitiliazer(rows, cols, game);
@@ -66,7 +65,7 @@ int main() {
 //check if the move is legal -> Once we know which moves are legal we implement an if statement checking that checks if the board is legal
 
 
-    myboard = PawnMoves(myboard);
+    myboard = CanEatKing(myboard);
 
     deletemyboard(myboard, rows, cols);
 

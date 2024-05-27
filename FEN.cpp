@@ -91,6 +91,36 @@ FEN_Games CreateFEN(std::string FEN){
         }
         }
 
+        // //Checking the game rules after the FEN position creation. (Hope that made sense)
+        // int SpaceCounter = 0;
+        // for(int i = 0; i < FEN.length(); i++){
+        //     if(FEN[i] == ' '){
+        //         SpaceCounter++;
+        //         switch(SpaceCounter){
+        //             case 1:
+        //                 if(FEN[i+1] == 'b'){
+        //                //     game.Playerturn(false); 
+        //                 }
+
+        //             break;
+
+        //             case 2:
+        //             break;
+
+        //             case 3:
+        //             break;
+        //             case 4:
+        //             break;
+        //             case 5:
+        //             break;
+
+        //         }
+            
+        //     }
+
+        // }
+
+
    if (broken == true){
         std::vector<char> ItIsBroken = {'1'};
         FEN_Games game(ItIsBroken, broken);

@@ -3,7 +3,13 @@
 
 
 char** CanEatKing(char** myboard){
-        std::cout << "hi I work";
+        
+    
+
+
+
+
+
     return myboard;
 }
 
