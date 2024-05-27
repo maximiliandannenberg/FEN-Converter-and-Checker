@@ -2,8 +2,7 @@
 #include "Piecemovement.hpp"
 
 
-
-char** PawnMoves(char** myboard){
+char** CanEatKing(char** myboard){
         std::cout << "hi I work";
     return myboard;
 }

@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-char** PawnMoves(char** myboard);
+char** CanEatKing(char** myboard);
 
 
 #endif
