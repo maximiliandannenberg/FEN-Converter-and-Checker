@@ -46,16 +46,14 @@ int main() {
                 CheckFEN = false;
             } else {CheckFEN = true;}
 
-            
         }
-
-
 
     int rows = 8;
     int cols = 8;
     char** myboard = boardinitiliazer(rows, cols, game);
     printboard(myboard, rows, cols);
 
+   // std::cout << game.getPlayerTurn();  //whyyyyyyyyyyyyyyyyyyy
 
 //set up board
 //Check whos turn it is
@@ -66,9 +64,6 @@ int main() {
     // myboard = CanEatKing(myboard);
 
      deletemyboard(myboard, rows);
-
-
-
 
 
 

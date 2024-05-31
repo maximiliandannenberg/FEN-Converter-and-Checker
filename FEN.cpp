@@ -22,12 +22,12 @@ FEN_Games CreateFEN(std::string FEN){
 
     //we are counting the spaces after the first FEN string.
     //The amount of spaces = the type of chess information (playerturn, castlingrights)
-    int FENposition = 0; //this will keep track when the FEN string is finished with the position. So we can run a for loop for the spaces following.
+    int FENStartOfRules = 0; //this will keep track when the FEN string is finished with the position. So we can run another for loop for game rules starting were game rules are in the FEN.
     for (int i = 0; i < FEN.length(); i++){
              //checks if FEN ends exactly at 64
             if(FEN[i] == ' ' && FENvalue.size() == 64 && slashes == 7){
                 std::cout << "perfect! \n";
-                FENposition = i;
+                FENStartOfRules = i;
                 break;
             }
             //checks if each row has exactly 8 spaces
@@ -97,57 +97,62 @@ FEN_Games CreateFEN(std::string FEN){
         }
         }
 
-        //Checking the game rules after the FEN position creation. (Hope that made sense)
-        int SpaceCounter = 0;
-        bool playerturn = false; //false = black, true = white
-        for(int i = FENposition; i < FEN.length(); i++){
-            if(FEN[i] == ' '){
-                SpaceCounter++;
-                switch(SpaceCounter){
-                    case 1:
-                        if(FEN[i+1] == 'b'){
-                            playerturn = false;
-                        }
-                        if(FEN[i+1] == 'w')
-                        {
-                            playerturn = true;
-                        }
-                        else
-                        {
-                            broken = true;
-                        }
-                    break;
+        if (broken == 0)
+        {
+            // //Checking the game rules after the FEN position creation. (Hope that made sense)
+            // int SpaceCounter = 0;
+            // bool playerturn = false; //false = black, true = white
+            // for(int i = FENStartOfRules; i < FEN.length(); i++){
+            //     if(FEN[i] == ' '){
+            //         SpaceCounter++;
+            //         switch(SpaceCounter){
+            //             case 1:
+            //                 if(FEN[i+1] == 'b'){
+            //                     playerturn = false;
+            //                 }
+            //                 if(FEN[i+1] == 'w')
+            //                 {
+            //                     playerturn = true;
+            //                 }
+            //                 else
+            //                 {
+            //                     broken = true;
+            //                 }
+            //             break;
 
-                    case 2:
-                    //create hashmap of the 4 chars(Not necessary but I want to practice hashmaps), 
-                    //if any character shows up more than once then it is broken, if any character besides K,k,Q,q shows up then it is also invalid
+            //             case 2:
+            //             //create hashmap of the 4 chars(Not necessary but I want to practice hashmaps), 
+            //             //if any character shows up more than once then it is broken, if any character besides K,k,Q,q shows up then it is also invalid
 
-                    break;
+            //             break;
 
-                    case 3:
-                    break;
-                    case 4:
-                    break;
-                    case 5:
-                    break;
+            //             case 3:
+            //             break;
+            //             case 4:
+            //             break;
+            //             case 5:
+            //             break;
 
-                }
-            
-            }
+            //         }
+                
+            //     }
 
+            // }
         }
+
 
 
    if (broken == true){
         bool ItIsBroken = true;
         game.setValidity(ItIsBroken);
         game.SetCalculatedFEN(FENvalue);
+       // game.setPlayerTurn(playerturn);
         return game;
    }else{
         bool ItIsBroken = false;
         game.setValidity(ItIsBroken);
         game.SetCalculatedFEN(FENvalue);
-        game.setPlayerTurn(playerturn);
+      //  game.setPlayerTurn(playerturn);
     return game;
    }
     

@@ -9,7 +9,7 @@ class FEN_Games{
     private:
     std::vector<char> FEN;
     bool FEN_broken;
-    bool Playerturn = 0;   //which color goes next black = false, white = true
+    bool Playerturn;   //which color goes next black = false, white = true
     std::vector<char> CastlingRights;
     int halfmoves = 0;
     int Turns = 1;
@@ -32,7 +32,7 @@ class FEN_Games{
     std::vector<char> GetFEN() { return FEN; }
 
     bool setPlayerTurn(bool playerturn);
-    bool getPlayerTurn(bool playerturn) { return Playerturn; }
+    bool getPlayerTurn() { return Playerturn; }
 
 
 
