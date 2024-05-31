@@ -32,8 +32,7 @@ int main() {
 
         std::vector<char> FENvalue;
         bool broken = 1;
-        FEN_Games game(FENvalue, broken);
-
+        FEN_Games game;
 
         bool CheckFEN = false;
         while(CheckFEN == false){
@@ -44,7 +43,7 @@ int main() {
 
             game = CreateFEN(FEN);
 
-            if(game.FEN_valid == 1){
+            if(game.CheckisValid() == 1){
                 std::cout << "invalid FEN, please submit a working one. \n";
                 CheckFEN = false;
             } else {CheckFEN = true;}
@@ -55,8 +54,8 @@ int main() {
 
     int rows = 8;
     int cols = 8;
-    char** myboard = boardinitiliazer(rows, cols, game);
-    printboard(myboard, rows, cols);
+   // char** myboard = boardinitiliazer(rows, cols, game);
+   // printboard(myboard, rows, cols);
 
 
 //set up board
@@ -65,9 +64,9 @@ int main() {
 //check if the move is legal -> Once we know which moves are legal we implement an if statement checking that checks if the board is legal
 
 
-    myboard = CanEatKing(myboard);
+    // myboard = CanEatKing(myboard);
 
-    deletemyboard(myboard, rows, cols);
+    // deletemyboard(myboard, rows, cols);
 
 return 0;
 

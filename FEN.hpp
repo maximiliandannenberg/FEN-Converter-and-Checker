@@ -4,15 +4,30 @@
 #include <vector>
 
 class FEN_Games{
-    public:
+    
+
+    private:
     std::vector <char> FEN;
-    bool FEN_valid;
-    bool Playerturn = 0;
+    bool FEN_broken;
+    bool Playerturn = 0;   //which color goes next black = false, white = true
     std::vector<char> CastlingRights;
     int halfmoves = 0;
     int Turns = 1;
 
-    FEN_Games(std::vector<char> &fen, bool &broke) : FEN(fen), FEN_valid(broke){}
+
+    bool setValidityPrivate(bool broken);
+    
+
+    public:
+
+
+    FEN_Games(){};
+
+    bool setValidity(bool broken);
+    bool CheckisValid() const { return FEN_broken; }
+
+
+
 };
 
 FEN_Games CreateFEN(std::string FEN);

@@ -11,6 +11,9 @@
 
 
 FEN_Games CreateFEN(std::string FEN){
+
+    FEN_Games game;
+
     std::vector<char> FENvalue;
     bool broken = 0;
     int slashes = 0;
@@ -91,7 +94,7 @@ FEN_Games CreateFEN(std::string FEN){
         }
         }
 
-        // //Checking the game rules after the FEN position creation. (Hope that made sense)
+        //Checking the game rules after the FEN position creation. (Hope that made sense)
         // int SpaceCounter = 0;
         // for(int i = 0; i < FEN.length(); i++){
         //     if(FEN[i] == ' '){
@@ -99,7 +102,7 @@ FEN_Games CreateFEN(std::string FEN){
         //         switch(SpaceCounter){
         //             case 1:
         //                 if(FEN[i+1] == 'b'){
-        //                //     game.Playerturn(false); 
+        //                     //game.Playerturn(false); 
         //                 }
 
         //             break;
@@ -122,11 +125,12 @@ FEN_Games CreateFEN(std::string FEN){
 
 
    if (broken == true){
-        std::vector<char> ItIsBroken = {'1'};
-        FEN_Games game(ItIsBroken, broken);
+        bool ItIsBroken = true;
+        game.setValidity(ItIsBroken);
         return game;
    }else{
-    FEN_Games game(FENvalue, broken);
+        bool ItIsBroken = false;
+        game.setValidity(ItIsBroken);
     return game;
    }
     
@@ -234,26 +238,45 @@ int wKing = 0, bKing = 0, wKnights = 0, bKnights = 0, wRooks = 0, bRooks = 0, wP
     return broken;
 }
 
-char** boardinitiliazer(int rows, int cols, FEN_Games game){
+// char** boardinitiliazer(int rows, int cols, FEN_Games game){
 
-    char** myboard = new char*[rows];
+//     char** myboard = new char*[rows];
 
-    for(int i = 0; i < rows; i++ ){
-        myboard[i] = new char[cols]; 
-        //at each memory address, which is a pointer to an array, you assign the length of the array.
-    }
+//     for(int i = 0; i < rows; i++ ){
+//         myboard[i] = new char[cols]; 
+//         //at each memory address, which is a pointer to an array, you assign the length of the array.
+//     }
 
 
-        for (int i = 0; i < rows; i++){
-            for (int j = 0; j < cols; j++){
-                int position = (i * 8) + j;
-                myboard[i][j] = game.FEN[position];
-            }
-        }
+//         for (int i = 0; i < rows; i++){
+//             for (int j = 0; j < cols; j++){
+//                 int position = (i * 8) + j;
+//                 myboard[i][j] = game.FEN[position];
+//             }
+//         }
     
-    return myboard;
+//     return myboard;
 
+//}
+
+
+bool FEN_Games::setValidity(bool broken)
+{
+  return setValidityPrivate(broken);
 }
+
+bool FEN_Games::setValidityPrivate(bool broken)
+{
+    if (broken == false){
+        return FEN_broken = false;
+    }
+    else
+    {
+        return FEN_broken = true;
+    }
+}
+
+
 
  void printboard(char** myboard, int rows, int cols){
     for (int i = 0; i < rows; i++){
