@@ -17,6 +17,7 @@ class FEN_Games{
 
     bool setValidityPrivate(bool broken);
     std::vector<char> SetCalculatedFENPrivate(std::vector<char> FENvalue);
+    bool setPlayerTurnPrivate(bool playerturn);
     
 
     public:
@@ -30,6 +31,8 @@ class FEN_Games{
     std::vector<char> SetCalculatedFEN(std::vector<char> FENvalue);
     std::vector<char> GetFEN() { return FEN; }
 
+    bool setPlayerTurn(bool playerturn);
+    bool getPlayerTurn(bool playerturn) { return Playerturn; }
 
 
 

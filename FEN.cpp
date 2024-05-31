@@ -22,10 +22,12 @@ FEN_Games CreateFEN(std::string FEN){
 
     //we are counting the spaces after the first FEN string.
     //The amount of spaces = the type of chess information (playerturn, castlingrights)
+    int FENposition = 0; //this will keep track when the FEN string is finished with the position. So we can run a for loop for the spaces following.
     for (int i = 0; i < FEN.length(); i++){
              //checks if FEN ends exactly at 64
             if(FEN[i] == ' ' && FENvalue.size() == 64 && slashes == 7){
                 std::cout << "perfect! \n";
+                FENposition = i;
                 break;
             }
             //checks if each row has exactly 8 spaces
@@ -75,6 +77,7 @@ FEN_Games CreateFEN(std::string FEN){
                     break;
             }
             //check for chars which aren't allowed to be displayed on the board
+
             for(int y = 0; y < 14; y++){
                 if(FEN[i] == AllowedBoardPieces[y]){
                     FENvalue.push_back(FEN[i]);
@@ -96,18 +99,29 @@ FEN_Games CreateFEN(std::string FEN){
 
         //Checking the game rules after the FEN position creation. (Hope that made sense)
         int SpaceCounter = 0;
-        for(int i = 0; i < FEN.length(); i++){
+        bool playerturn = false; //false = black, true = white
+        for(int i = FENposition; i < FEN.length(); i++){
             if(FEN[i] == ' '){
                 SpaceCounter++;
                 switch(SpaceCounter){
                     case 1:
                         if(FEN[i+1] == 'b'){
-                            //game.Playerturn(false); 
+                            playerturn = false;
                         }
-
+                        if(FEN[i+1] == 'w')
+                        {
+                            playerturn = true;
+                        }
+                        else
+                        {
+                            broken = true;
+                        }
                     break;
 
                     case 2:
+                    //create hashmap of the 4 chars(Not necessary but I want to practice hashmaps), 
+                    //if any character shows up more than once then it is broken, if any character besides K,k,Q,q shows up then it is also invalid
+
                     break;
 
                     case 3:
@@ -124,8 +138,6 @@ FEN_Games CreateFEN(std::string FEN){
         }
 
 
-
-
    if (broken == true){
         bool ItIsBroken = true;
         game.setValidity(ItIsBroken);
@@ -135,6 +147,7 @@ FEN_Games CreateFEN(std::string FEN){
         bool ItIsBroken = false;
         game.setValidity(ItIsBroken);
         game.SetCalculatedFEN(FENvalue);
+        game.setPlayerTurn(playerturn);
     return game;
    }
     
@@ -267,6 +280,16 @@ std::vector<char> FEN_Games::SetCalculatedFENPrivate(std::vector<char> FENvalue)
     return FEN = FENvalue;
 }
 
+bool FEN_Games::setPlayerTurn(bool playerturn)
+{
+    return setPlayerTurnPrivate(playerturn);
+}
+
+bool FEN_Games::setPlayerTurnPrivate(bool playerturn)
+{
+    return playerturn;
+}
+
 char** boardinitiliazer(int rows, int cols, FEN_Games game){
 
 
@@ -304,7 +327,6 @@ char** boardinitiliazer(int rows, int cols, FEN_Games game){
 void deletemyboard(char** myboard, int rows){
     for(int i = 0; i < rows; i++ ){
         delete[] myboard[i];
-        myboard = nullptr;
     }
     delete[] myboard;
     myboard = nullptr;
