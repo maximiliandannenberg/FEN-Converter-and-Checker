@@ -95,49 +95,52 @@ FEN_Games CreateFEN(std::string FEN){
         }
 
         //Checking the game rules after the FEN position creation. (Hope that made sense)
-        // int SpaceCounter = 0;
-        // for(int i = 0; i < FEN.length(); i++){
-        //     if(FEN[i] == ' '){
-        //         SpaceCounter++;
-        //         switch(SpaceCounter){
-        //             case 1:
-        //                 if(FEN[i+1] == 'b'){
-        //                     //game.Playerturn(false); 
-        //                 }
+        int SpaceCounter = 0;
+        for(int i = 0; i < FEN.length(); i++){
+            if(FEN[i] == ' '){
+                SpaceCounter++;
+                switch(SpaceCounter){
+                    case 1:
+                        if(FEN[i+1] == 'b'){
+                            //game.Playerturn(false); 
+                        }
 
-        //             break;
+                    break;
 
-        //             case 2:
-        //             break;
+                    case 2:
+                    break;
 
-        //             case 3:
-        //             break;
-        //             case 4:
-        //             break;
-        //             case 5:
-        //             break;
+                    case 3:
+                    break;
+                    case 4:
+                    break;
+                    case 5:
+                    break;
 
-        //         }
+                }
             
-        //     }
+            }
 
-        // }
+        }
+
+
 
 
    if (broken == true){
         bool ItIsBroken = true;
         game.setValidity(ItIsBroken);
+        game.SetCalculatedFEN(FENvalue);
         return game;
    }else{
         bool ItIsBroken = false;
         game.setValidity(ItIsBroken);
+        game.SetCalculatedFEN(FENvalue);
     return game;
    }
     
 }
 
-
-//Checks to see if piece counts make sense.
+//Checks to see if piece counts make sense. 1 king, no more than 8 pawns, etc.
 bool FEN_Check_Piece_Count(std::vector<char> FENvalue) {
 bool broken = false;
 int TotalWhitePieces = 0;
@@ -238,28 +241,6 @@ int wKing = 0, bKing = 0, wKnights = 0, bKnights = 0, wRooks = 0, bRooks = 0, wP
     return broken;
 }
 
-// char** boardinitiliazer(int rows, int cols, FEN_Games game){
-
-//     char** myboard = new char*[rows];
-
-//     for(int i = 0; i < rows; i++ ){
-//         myboard[i] = new char[cols]; 
-//         //at each memory address, which is a pointer to an array, you assign the length of the array.
-//     }
-
-
-//         for (int i = 0; i < rows; i++){
-//             for (int j = 0; j < cols; j++){
-//                 int position = (i * 8) + j;
-//                 myboard[i][j] = game.FEN[position];
-//             }
-//         }
-    
-//     return myboard;
-
-//}
-
-
 bool FEN_Games::setValidity(bool broken)
 {
   return setValidityPrivate(broken);
@@ -276,7 +257,40 @@ bool FEN_Games::setValidityPrivate(bool broken)
     }
 }
 
+std::vector<char> FEN_Games::SetCalculatedFEN(std::vector<char> FENvalue)
+{
+    return SetCalculatedFENPrivate(FENvalue);
+}
 
+std::vector<char> FEN_Games::SetCalculatedFENPrivate(std::vector<char> FENvalue)
+{
+    return FEN = FENvalue;
+}
+
+char** boardinitiliazer(int rows, int cols, FEN_Games game){
+
+
+    std::vector<char> FENstring;
+    FENstring = game.GetFEN();
+
+    char** myboard = new char*[rows];
+
+    for(int i = 0; i < rows; i++ ){
+        myboard[i] = new char[cols]; 
+        //at each memory address, which is a pointer to an array, you assign the length of the array.
+    }
+
+
+        for (int i = 0; i < rows; i++){
+            for (int j = 0; j < cols; j++){
+                int position = (i * 8) + j;
+                myboard[i][j] = FENstring[position]; //error here
+            }
+        }
+    
+    return myboard;
+
+}
 
  void printboard(char** myboard, int rows, int cols){
     for (int i = 0; i < rows; i++){
@@ -287,12 +301,13 @@ bool FEN_Games::setValidityPrivate(bool broken)
         }
     }
 
-void deletemyboard(char** myboard, int rows, int cols){
+void deletemyboard(char** myboard, int rows){
     for(int i = 0; i < rows; i++ ){
         delete[] myboard[i];
+        myboard = nullptr;
     }
     delete[] myboard;
-    myboard = NULL;
+    myboard = nullptr;
 }
 
 

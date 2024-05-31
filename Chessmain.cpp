@@ -30,8 +30,6 @@ segmentation fault due to return value from Piecemovement
 
 int main() {
 
-        std::vector<char> FENvalue;
-        bool broken = 1;
         FEN_Games game;
 
         bool CheckFEN = false;
@@ -47,6 +45,7 @@ int main() {
                 std::cout << "invalid FEN, please submit a working one. \n";
                 CheckFEN = false;
             } else {CheckFEN = true;}
+
             
         }
 
@@ -54,8 +53,8 @@ int main() {
 
     int rows = 8;
     int cols = 8;
-   // char** myboard = boardinitiliazer(rows, cols, game);
-   // printboard(myboard, rows, cols);
+    char** myboard = boardinitiliazer(rows, cols, game);
+    printboard(myboard, rows, cols);
 
 
 //set up board
@@ -66,7 +65,12 @@ int main() {
 
     // myboard = CanEatKing(myboard);
 
-    // deletemyboard(myboard, rows, cols);
+     deletemyboard(myboard, rows);
+
+
+
+
+
 
 return 0;
 
