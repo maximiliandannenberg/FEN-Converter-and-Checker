@@ -21,12 +21,12 @@ FEN_Games CreateFEN(std::string FEN){
     char AllowedCharactersInFEN[22] = {'k','K','r','R','n','N','p','P','b','B','0','q','Q','0','1','2','3','4','5','6','7','8'};
 
     //we are counting the spaces after the first FEN string.
-    //The amount of spaces = the type of chess information (playerturn, castlingrights)
+    //The amount of spaces = the type of chess information (PlayerTurn, castlingrights)
     int FENStartOfRules = 0; //this will keep track when the FEN string is finished with the position. So we can run another for loop for game rules starting were game rules are in the FEN.
     for (int i = 0; i < FEN.length(); i++){
              //checks if FEN ends exactly at 64
             if(FEN[i] == ' ' && FENvalue.size() == 64 && slashes == 7){
-                std::cout << "perfect! \n";
+                std::cout << "The Board has a correct FEN \n";
                 FENStartOfRules = i;
                 break;
             }
@@ -97,65 +97,88 @@ FEN_Games CreateFEN(std::string FEN){
         }
         }
 
-        if (broken == 0)
-        {
-            // //Checking the game rules after the FEN position creation. (Hope that made sense)
-            // int SpaceCounter = 0;
-            // bool playerturn = false; //false = black, true = white
-            // for(int i = FENStartOfRules; i < FEN.length(); i++){
-            //     if(FEN[i] == ' '){
-            //         SpaceCounter++;
-            //         switch(SpaceCounter){
-            //             case 1:
-            //                 if(FEN[i+1] == 'b'){
-            //                     playerturn = false;
-            //                 }
-            //                 if(FEN[i+1] == 'w')
-            //                 {
-            //                     playerturn = true;
-            //                 }
-            //                 else
-            //                 {
-            //                     broken = true;
-            //                 }
-            //             break;
+        // if (broken == 0)
+        // {
+        //     // //Checking the game rules after the FEN position creation. (Hope that made sense)
+        //     // int SpaceCounter = 0;
+        //     // bool PlayerTurn = false; //false = black, true = white
+        //     // for(int i = FENStartOfRules; i < FEN.length(); i++){
+        //     //     if(FEN[i] == ' '){
+        //     //         SpaceCounter++;
+        //     //         switch(SpaceCounter){
+        //     //             case 1:
+        //     //                 if(FEN[i+1] == 'b'){
+        //     //                     PlayerTurn = false;
+        //     //                 }
+        //     //                 if(FEN[i+1] == 'w')
+        //     //                 {
+        //     //                     PlayerTurn = true;
+        //     //                 }
+        //     //                 else
+        //     //                 {
+        //     //                     broken = true;
+        //     //                 }
+        //     //             break;
 
-            //             case 2:
-            //             //create hashmap of the 4 chars(Not necessary but I want to practice hashmaps), 
-            //             //if any character shows up more than once then it is broken, if any character besides K,k,Q,q shows up then it is also invalid
+        //     //             case 2:
+        //     //             //create hashmap of the 4 chars(Not necessary but I want to practice hashmaps), 
+        //     //             //if any character shows up more than once then it is broken, if any character besides K,k,Q,q shows up then it is also invalid
 
-            //             break;
+        //     //             break;
 
-            //             case 3:
-            //             break;
-            //             case 4:
-            //             break;
-            //             case 5:
-            //             break;
+        //     //             case 3:
+        //     //             break;
+        //     //             case 4:
+        //     //             break;
+        //     //             case 5:
+        //     //             break;
 
-            //         }
+        //     //         }
                 
-            //     }
+        //     //     }
 
-            // }
-        }
+        //     // }
+        // }
 
+    bool playerTurn = 0;
+    int TurnNUM = FigureOutPlayerTurn(FEN, FENStartOfRules);
+    if (TurnNUM == 1){
+        playerTurn = 1;
+    }
+    if (TurnNUM == 2){
+        broken = true;
+    }
 
 
    if (broken == true){
         bool ItIsBroken = true;
         game.setValidity(ItIsBroken);
-        game.SetCalculatedFEN(FENvalue);
-       // game.setPlayerTurn(playerturn);
         return game;
    }else{
         bool ItIsBroken = false;
         game.setValidity(ItIsBroken);
         game.SetCalculatedFEN(FENvalue);
-      //  game.setPlayerTurn(playerturn);
+        game.setPlayerTurn(playerTurn);
     return game;
    }
     
+}
+
+
+int FigureOutPlayerTurn(std::string FEN, int FENStartOfRules){
+    int i = FENStartOfRules;
+   if (FEN[i+1] == 'b'){
+        std::cout << "black \n";
+        return 0;
+    } if (FEN[i+1] == 'w'){
+        std::cout << "white \n";
+        return 1;
+    } else 
+    {
+        std::cout << "broken \n";
+        return 2;
+    }
+    //true (1) = white, false (2) = black
 }
 
 //Checks to see if piece counts make sense. 1 king, no more than 8 pawns, etc.
@@ -285,14 +308,15 @@ std::vector<char> FEN_Games::SetCalculatedFENPrivate(std::vector<char> FENvalue)
     return FEN = FENvalue;
 }
 
-bool FEN_Games::setPlayerTurn(bool playerturn)
+
+bool FEN_Games::setPlayerTurn(bool playerTurn)
 {
-    return setPlayerTurnPrivate(playerturn);
+    return setPlayerTurnPrivate(playerTurn);
 }
 
-bool FEN_Games::setPlayerTurnPrivate(bool playerturn)
+bool FEN_Games::setPlayerTurnPrivate(bool playerTurn)
 {
-    return playerturn;
+    return Playerturn = playerTurn;
 }
 
 char** boardinitiliazer(int rows, int cols, FEN_Games game){

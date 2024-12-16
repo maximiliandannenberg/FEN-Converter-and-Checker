@@ -53,7 +53,8 @@ int main() {
     char** myboard = boardinitiliazer(rows, cols, game);
     printboard(myboard, rows, cols);
 
-   // std::cout << game.getPlayerTurn();  //whyyyyyyyyyyyyyyyyyyy
+
+    std::cout << game.getPlayerTurn();  //whyyyyyyyyyyyyyyyyyyy
 
 //set up board
 //Check whos turn it is

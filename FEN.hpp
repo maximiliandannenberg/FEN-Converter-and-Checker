@@ -31,10 +31,8 @@ class FEN_Games{
     std::vector<char> SetCalculatedFEN(std::vector<char> FENvalue);
     std::vector<char> GetFEN() { return FEN; }
 
-    bool setPlayerTurn(bool playerturn);
+    bool setPlayerTurn(bool playerTurn);
     bool getPlayerTurn() { return Playerturn; }
-
-
 
 };
 
@@ -43,6 +41,8 @@ FEN_Games CreateFEN(std::string FEN);
 std::vector<char> FEN_converter(std::string FEN);
 
 bool FEN_Check_Piece_Count(std::vector<char> FEN_converted);
+
+int FigureOutPlayerTurn(std::string FEN, int FENStartOfRules);
 
 void board(std::vector<char> FEN_converted);
 
