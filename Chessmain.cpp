@@ -55,6 +55,9 @@ int main() {
 
 
     std::cout << game.getPlayerTurn();  //whyyyyyyyyyyyyyyyyyyy
+    for(int i = 0; i < game.getCastlingRights().size(); i++){
+        std::cout << game.getCastlingRights()[i];
+    }
 
 //set up board
 //Check whos turn it is

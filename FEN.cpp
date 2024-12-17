@@ -150,6 +150,11 @@ FEN_Games CreateFEN(std::string FEN){
     }
 
 
+  std::vector<char> castlingrights = FigureOutCastlingRights(FEN, FENStartOfRules);
+    if (castlingrights[0] == '0'){
+        broken = true;
+    }
+
    if (broken == true){
         bool ItIsBroken = true;
         game.setValidity(ItIsBroken);
@@ -159,6 +164,7 @@ FEN_Games CreateFEN(std::string FEN){
         game.setValidity(ItIsBroken);
         game.SetCalculatedFEN(FENvalue);
         game.setPlayerTurn(playerTurn);
+        game.setCastlingRights(castlingrights);
     return game;
    }
     
@@ -179,6 +185,36 @@ int FigureOutPlayerTurn(std::string FEN, int FENStartOfRules){
         return 2;
     }
     //true (1) = white, false (2) = black
+}
+
+std::vector<char>FigureOutCastlingRights(std::string FEN, int FENStartOfRules){
+    int i = FENStartOfRules;
+    std::vector<char> PossibleCastlingRightsChar = {'K','Q','k','q'};
+    std::vector<char> CastlingRights;
+    int charadded = 0;
+    if (FEN[i+2] != ' '){
+        std::cout << "broken \n";
+        return CastlingRights = {0};
+    }
+    if (FEN[i+3] == '-'){
+        std::cout << "No castling rights \n";
+        return CastlingRights = {'-'};
+    }
+   for (int x = 0; x < 4; x++){
+        for (int j = 0; j < 4; j++){
+           if(FEN[i+3+x] == PossibleCastlingRightsChar[j]){
+            charadded++;
+            CastlingRights.push_back(FEN[i+3+x]);          
+           }
+        }
+        if (charadded == 0 && FEN[i+3+x] != ' '){
+            x = 4;
+            std::cout << "broken \n";
+            return CastlingRights = {'0'};
+        }
+    }
+    std::cout << "Castling rights: " << charadded << "\n";
+    return CastlingRights;
 }
 
 //Checks to see if piece counts make sense. 1 king, no more than 8 pawns, etc.
@@ -318,6 +354,16 @@ bool FEN_Games::setPlayerTurnPrivate(bool playerTurn)
 {
     return Playerturn = playerTurn;
 }
+
+std::vector<char> FEN_Games::setCastlingRights(std::vector<char> CastlingRights)
+{
+    return setCastlingRightsPrivate(CastlingRights);
+}
+std::vector<char> FEN_Games::setCastlingRightsPrivate(std::vector<char> CastlingRights)
+{
+    return Castling_Rights = CastlingRights;
+}
+
 
 char** boardinitiliazer(int rows, int cols, FEN_Games game){
 
