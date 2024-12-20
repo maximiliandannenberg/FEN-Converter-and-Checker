@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <list>
+#include <unordered_map>
 #include "FEN.hpp"
 
 
@@ -189,9 +190,8 @@ int FigureOutPlayerTurn(std::string FEN, int FENStartOfRules){
 
 std::vector<char>FigureOutCastlingRights(std::string FEN, int FENStartOfRules){
     int i = FENStartOfRules;
-    std::vector<char> PossibleCastlingRightsChar = {'K','Q','k','q'};
+    std::unordered_map<char, int> CastlingRightsMap = {{'K', 0}, {'Q', 0}, {'k', 0}, {'q', 0}};
     std::vector<char> CastlingRights;
-    int charadded = 0;
     if (FEN[i+2] != ' '){
         std::cout << "broken \n";
         return CastlingRights = {0};
@@ -201,19 +201,26 @@ std::vector<char>FigureOutCastlingRights(std::string FEN, int FENStartOfRules){
         return CastlingRights = {'-'};
     }
    for (int x = 0; x < 4; x++){
-        for (int j = 0; j < 4; j++){
-           if(FEN[i+3+x] == PossibleCastlingRightsChar[j]){
-            charadded++;
-            CastlingRights.push_back(FEN[i+3+x]);          
-           }
+        char charadded = FEN[i+3+x];
+        if (charadded == ' '){
+            break;
         }
-        if (charadded == 0 && FEN[i+3+x] != ' '){
-            x = 4;
-            std::cout << "broken \n";
-            return CastlingRights = {'0'};
+        if(CastlingRightsMap.find(charadded) != CastlingRightsMap.end()){
+            CastlingRightsMap[charadded]++;
+            if (CastlingRightsMap[charadded] > 1){
+                std::cout << "broken \n";
+                return CastlingRights = {'0'};
+            } 
+                CastlingRights.push_back(charadded);
         }
+        else if (charadded != ' '){
+        std::cout << "broken \n";
+        return CastlingRights = {'0'};
     }
-    std::cout << "Castling rights: " << charadded << "\n";
+
+
+    }
+    std::cout << "Castling rights: " << CastlingRights.size() << "\n";
     return CastlingRights;
 }
 
