@@ -13,13 +13,14 @@ class FEN_Games{
     std::vector<char> Castling_Rights; 
     int halfmoves = 0;
     int Turns = 1;
+    std::vector<char> En_Passant;
 
 
     bool setValidityPrivate(bool broken);
     std::vector<char> SetCalculatedFENPrivate(std::vector<char> FENvalue);
     bool setPlayerTurnPrivate(bool playerturn);
     std::vector<char> setCastlingRightsPrivate(std::vector<char> CastlingRights);
-    
+    std::vector<char> setEnPassantPrivate(std::vector<char> EnPassant);
 
     public:
 
@@ -38,6 +39,8 @@ class FEN_Games{
     std::vector<char> setCastlingRights(std::vector<char> CastlingRights);
     std::vector<char> getCastlingRights() { return Castling_Rights; }
 
+    std::vector<char> setEnPassant(std::vector<char> EnPassant);
+    std::vector<char> getEnPassant() { return En_Passant; }
 };
 
 FEN_Games CreateFEN(std::string FEN);
@@ -49,6 +52,8 @@ bool FEN_Check_Piece_Count(std::vector<char> FEN_converted);
 int FigureOutPlayerTurn(std::string FEN, int FENStartOfRules);
 
 std::vector<char>FigureOutCastlingRights(std::string FEN, int FENStartOfRules);
+
+std::vector<char>FigureOutEnPassant(std::string FEN, int FENStartOfRules);
 
 void board(std::vector<char> FEN_converted);
 

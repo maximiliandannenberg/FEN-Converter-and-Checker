@@ -58,6 +58,7 @@ int main() {
     for(int i = 0; i < game.getCastlingRights().size(); i++){
         std::cout << game.getCastlingRights()[i];
     }
+    std::cout << "\n\n\n\n" << game.getEnPassant()[0] << game.getEnPassant()[1] << "\n\n\n\n";
 
 //set up board
 //Check whos turn it is

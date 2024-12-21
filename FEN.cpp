@@ -89,7 +89,7 @@ FEN_Games CreateFEN(std::string FEN){
                     break;
                 }
         }
-        
+    
         if (broken == false){
         bool FEN_checked_pieces = FEN_Check_Piece_Count(FENvalue);
         std::cout << "\n\n\n" << FEN_checked_pieces << "\n";
@@ -98,49 +98,7 @@ FEN_Games CreateFEN(std::string FEN){
         }
         }
 
-        // if (broken == 0)
-        // {
-        //     // //Checking the game rules after the FEN position creation. (Hope that made sense)
-        //     // int SpaceCounter = 0;
-        //     // bool PlayerTurn = false; //false = black, true = white
-        //     // for(int i = FENStartOfRules; i < FEN.length(); i++){
-        //     //     if(FEN[i] == ' '){
-        //     //         SpaceCounter++;
-        //     //         switch(SpaceCounter){
-        //     //             case 1:
-        //     //                 if(FEN[i+1] == 'b'){
-        //     //                     PlayerTurn = false;
-        //     //                 }
-        //     //                 if(FEN[i+1] == 'w')
-        //     //                 {
-        //     //                     PlayerTurn = true;
-        //     //                 }
-        //     //                 else
-        //     //                 {
-        //     //                     broken = true;
-        //     //                 }
-        //     //             break;
-
-        //     //             case 2:
-        //     //             //create hashmap of the 4 chars(Not necessary but I want to practice hashmaps), 
-        //     //             //if any character shows up more than once then it is broken, if any character besides K,k,Q,q shows up then it is also invalid
-
-        //     //             break;
-
-        //     //             case 3:
-        //     //             break;
-        //     //             case 4:
-        //     //             break;
-        //     //             case 5:
-        //     //             break;
-
-        //     //         }
-                
-        //     //     }
-
-        //     // }
-        // }
-
+//   This code will be used to figure out the player turn of the game.
     bool playerTurn = 0;
     int TurnNUM = FigureOutPlayerTurn(FEN, FENStartOfRules);
     if (TurnNUM == 1){
@@ -149,12 +107,21 @@ FEN_Games CreateFEN(std::string FEN){
     if (TurnNUM == 2){
         broken = true;
     }
-
-
+//   This code will be used to figure out the castling rights of the game.
   std::vector<char> castlingrights = FigureOutCastlingRights(FEN, FENStartOfRules);
     if (castlingrights[0] == '0'){
         broken = true;
     }
+
+//This changes the point where we look at the FEN for the game rules.
+FENStartOfRules = FENStartOfRules + castlingrights.size() + 4;
+//This code will be used to figure out the en passant square of the game.
+  std::vector<char> EnPassant = FigureOutEnPassant(FEN, FENStartOfRules);
+    if (EnPassant[0] == '0'){
+        broken = true;
+    }
+ 
+
 
    if (broken == true){
         bool ItIsBroken = true;
@@ -166,6 +133,7 @@ FEN_Games CreateFEN(std::string FEN){
         game.SetCalculatedFEN(FENvalue);
         game.setPlayerTurn(playerTurn);
         game.setCastlingRights(castlingrights);
+        game.setEnPassant(EnPassant);
     return game;
    }
     
@@ -222,6 +190,37 @@ std::vector<char>FigureOutCastlingRights(std::string FEN, int FENStartOfRules){
     }
     std::cout << "Castling rights: " << CastlingRights.size() << "\n";
     return CastlingRights;
+}
+
+std::vector<char>FigureOutEnPassant(std::string FEN, int FENStartOfRules){
+    int i = FENStartOfRules;
+    std::vector<char> EnPassant;
+    if (FEN[i] == '-'){
+        std::cout << "No En Passant \n";
+        return EnPassant = {'-'};
+    }
+
+    if (FEN[i] != '-'){
+        std::unordered_map<char, int> PossibleEnpassantChar = {{'a', 0}, {'b', 0}, {'c', 0}, {'d', 0}, {'e', 0}, {'f', 0}, {'g', 0}, {'h', 0}};
+        std::unordered_map<char, int> PossibleEnpassantNum = {{'1', 0}, {'2', 0}, {'3', 0}, {'4', 0}, {'5', 0}, {'6', 0}, {'7', 0}, {'8', 0}};
+        if(PossibleEnpassantChar.find(FEN[i]) != PossibleEnpassantChar.end()){
+            EnPassant.push_back(FEN[i]);
+        } else {
+            return EnPassant = {'0'};
+        }
+        if(PossibleEnpassantNum.find(FEN[i+1]) != PossibleEnpassantNum.end()){
+            EnPassant.push_back(FEN[i+1]);
+            //std::cout << "\n\n\n" << "En Passant: " << EnPassant[0] << EnPassant[1] << "\n";
+            return EnPassant;
+        } 
+        //this seems redundant but it is to make sure that the first char is a letter and the second char is a number.
+        else {
+            return EnPassant = {'0'};
+        }
+    }
+    else {
+        return EnPassant = {'0'};
+    }
 }
 
 //Checks to see if piece counts make sense. 1 king, no more than 8 pawns, etc.
@@ -356,7 +355,6 @@ bool FEN_Games::setPlayerTurn(bool playerTurn)
 {
     return setPlayerTurnPrivate(playerTurn);
 }
-
 bool FEN_Games::setPlayerTurnPrivate(bool playerTurn)
 {
     return Playerturn = playerTurn;
@@ -371,6 +369,12 @@ std::vector<char> FEN_Games::setCastlingRightsPrivate(std::vector<char> Castling
     return Castling_Rights = CastlingRights;
 }
 
+std::vector<char> FEN_Games::setEnPassant(std::vector<char> EnPassant){
+    return setEnPassantPrivate(EnPassant);
+}
+std::vector<char> FEN_Games::setEnPassantPrivate(std::vector<char> EnPassant){
+    return En_Passant = EnPassant;
+}
 
 char** boardinitiliazer(int rows, int cols, FEN_Games game){
 
