@@ -150,7 +150,6 @@ int FigureOutPlayerTurn(std::string FEN, int FENStartOfRules){
         return 1;
     } else 
     {
-        std::cout << "broken \n";
         return 2;
     }
     //true (1) = white, false (2) = black
