@@ -195,7 +195,6 @@ std::vector<char>FigureOutEnPassant(std::string FEN, int FENStartOfRules){
     int i = FENStartOfRules;
     std::vector<char> EnPassant;
     if (FEN[i] == '-'){
-        std::cout << "No En Passant \n";
         return EnPassant = {'-'};
     }
 
