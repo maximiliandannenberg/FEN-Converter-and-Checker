@@ -115,13 +115,13 @@ FEN_Games CreateFEN(std::string FEN){
 
 //This changes the point where we look at the FEN for the game rules.
 FENStartOfRules = FENStartOfRules + castlingrights.size() + 4;
-//This code will be used to figure out the en passant square of the game.
-  std::vector<char> EnPassant = FigureOutEnPassant(FEN, FENStartOfRules);
+//This code will be used to figure out the en passant square of the game.   
+
+  std::vector<char> EnPassant = FigureOutEnPassant(FEN, &FENStartOfRules);
     if (EnPassant[0] == '0'){
         broken = true;
     }
  
-
 
    if (broken == true){
         bool ItIsBroken = true;
@@ -191,10 +191,11 @@ std::vector<char>FigureOutCastlingRights(std::string FEN, int FENStartOfRules){
     return CastlingRights;
 }
 
-std::vector<char>FigureOutEnPassant(std::string FEN, int FENStartOfRules){
-    int i = FENStartOfRules;
+std::vector<char>FigureOutEnPassant(std::string FEN, int *FENStartOfRulesPointer){
+    int i = *FENStartOfRulesPointer;
     std::vector<char> EnPassant;
     if (FEN[i] == '-'){
+        *FENStartOfRulesPointer = *FENStartOfRulesPointer + 2;
         return EnPassant = {'-'};
     }
 
@@ -208,6 +209,7 @@ std::vector<char>FigureOutEnPassant(std::string FEN, int FENStartOfRules){
         }
         if(PossibleEnpassantNum.find(FEN[i+1]) != PossibleEnpassantNum.end()){
             EnPassant.push_back(FEN[i+1]);
+            *FENStartOfRulesPointer = *FENStartOfRulesPointer + 2;
             //std::cout << "\n\n\n" << "En Passant: " << EnPassant[0] << EnPassant[1] << "\n";
             return EnPassant;
         } 

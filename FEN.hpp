@@ -53,7 +53,7 @@ int FigureOutPlayerTurn(std::string FEN, int FENStartOfRules);
 
 std::vector<char>FigureOutCastlingRights(std::string FEN, int FENStartOfRules);
 
-std::vector<char>FigureOutEnPassant(std::string FEN, int FENStartOfRules);
+std::vector<char>FigureOutEnPassant(std::string FEN, int *FENStartOfRules);
 
 void board(std::vector<char> FEN_converted);
 
