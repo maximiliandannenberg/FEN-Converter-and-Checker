@@ -66,8 +66,6 @@ std::vector<char>FigureOutEnPassant(std::string FEN, int *FENStartOfRules);
 
 int FigureOutTheNumber(std::string FEN, int *FENStartOfRulesPointer, bool *brokenPointer);
 
-void board(std::vector<char> FEN_converted);
-
 char** boardinitiliazer(int rows, int cols, FEN_Games game);
 
 void printboard(char** myboard, int rows, int cols);
