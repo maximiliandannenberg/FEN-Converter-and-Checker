@@ -25,9 +25,9 @@ FEN_Games CreateFEN(std::string FEN){
     //The amount of spaces = the type of chess information (PlayerTurn, castlingrights)
     int FENStartOfRules = 0; //this will keep track when the FEN string is finished with the position. So we can run another for loop for game rules starting were game rules are in the FEN.
     for (int i = 0; i < FEN.length(); i++){
-             //checks if FEN ends exactly at 64
+             //checks if FEN ends exactly at 64, this marks the end of the displayed board
+             //and shows that everything has been properly written.
             if(FEN[i] == ' ' && FENvalue.size() == 64 && slashes == 7){
-                std::cout << "The Board has a correct FEN \n";
                 FENStartOfRules = i;
                 break;
             }
@@ -92,7 +92,6 @@ FEN_Games CreateFEN(std::string FEN){
     
         if (broken == false){
         bool FEN_checked_pieces = FEN_Check_Piece_Count(FENvalue);
-        std::cout << "\n\n\n" << FEN_checked_pieces << "\n";
         if(FEN_checked_pieces == true){
             broken = 1;
         }
@@ -121,15 +120,17 @@ FEN_Games CreateFEN(std::string FEN){
             broken = true;
         }
  
+
+
     int HalfTurns = FigureOutTheNumber(FEN, &FENStartOfRules, &broken);
 
-    // int FullMoves = FigureOutTheNumber(FEN, &FENStartOfRules, &broken);
-    //     if (FullMoves > 50){
-    //         broken = true;
-    //     }
+ std::cout << "\n\n\n" << "Here are the halfturns: " << HalfTurns << '\n';
 
-        std::cout << "\n\n\n" << "Here are the halfturns: " << HalfTurns << '\n';
-       // std::cout << "Here are the HalfMoves: " << FullMoves << "\n\n\n";
+    int FullMoves = FigureOutTheNumber(FEN, &FENStartOfRules, &broken);
+        if (FullMoves > 50){
+            broken = true;
+        }
+ std::cout << "Here are the HalfMoves: " << FullMoves << "\n\n\n";
 
    if (broken == true){
         bool ItIsBroken = true;
@@ -151,10 +152,8 @@ FEN_Games CreateFEN(std::string FEN){
 int FigureOutPlayerTurn(std::string FEN, int FENStartOfRules){
     int i = FENStartOfRules;
    if (FEN[i+1] == 'b'){
-        std::cout << "black \n";
         return 0;
     } if (FEN[i+1] == 'w'){
-        std::cout << "white \n";
         return 1;
     } else 
     {
@@ -238,14 +237,17 @@ int FigureOutTheNumber(std::string FEN, int *FENStartOfRulesPointer, bool *broke
     int HalfMoveFirstDigit = FEN[PosInFEN] - '0';
     if (HalfMoveFirstDigit >= 0 || HalfMoveFirstDigit <= 9){
         PosInFEN++;
+        *FENStartOfRulesPointer = PosInFEN;
         if (FEN[PosInFEN] == ' '){
             HalfMovesTotal = HalfMoveFirstDigit;
             return HalfMovesTotal;
         }
         int HalfMoveSecondDigit = FEN[PosInFEN] - '0';
         if (HalfMoveSecondDigit >= 0 && HalfMoveSecondDigit <= 9 ){
+            PosInFEN++;
             *FENStartOfRulesPointer = PosInFEN;
             HalfMovesTotal = (HalfMoveFirstDigit * 10) + HalfMoveSecondDigit;
+            return HalfMovesTotal;
         }
     } 
             *brokenPointer = true;
