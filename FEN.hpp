@@ -55,6 +55,8 @@ std::vector<char>FigureOutCastlingRights(std::string FEN, int FENStartOfRules);
 
 std::vector<char>FigureOutEnPassant(std::string FEN, int *FENStartOfRules);
 
+int FigureOutTheNumber(std::string FEN, int *FENStartOfRulesPointer, bool *brokenPointer);
+
 void board(std::vector<char> FEN_converted);
 
 char** boardinitiliazer(int rows, int cols, FEN_Games game);

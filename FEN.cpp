@@ -107,21 +107,29 @@ FEN_Games CreateFEN(std::string FEN){
     if (TurnNUM == 2){
         broken = true;
     }
-//   This code will be used to figure out the castling rights of the game.
-  std::vector<char> castlingrights = FigureOutCastlingRights(FEN, FENStartOfRules);
-    if (castlingrights[0] == '0'){
-        broken = true;
-    }
+    //   This code will be used to figure out the castling rights of the game.
+    std::vector<char> castlingrights = FigureOutCastlingRights(FEN, FENStartOfRules);
+        if (castlingrights[0] == '0'){
+            broken = true;
+        }
 
-//This changes the point where we look at the FEN for the game rules.
-FENStartOfRules = FENStartOfRules + castlingrights.size() + 4;
-//This code will be used to figure out the en passant square of the game.   
-
-  std::vector<char> EnPassant = FigureOutEnPassant(FEN, &FENStartOfRules);
-    if (EnPassant[0] == '0'){
-        broken = true;
-    }
+    //This changes the point where we look at the FEN for the game rules.
+    FENStartOfRules = FENStartOfRules + castlingrights.size() + 4;
+    //This code will be used to figure out the en passant square of the game.   
+    std::vector<char> EnPassant = FigureOutEnPassant(FEN, &FENStartOfRules);
+        if (EnPassant[0] == '0'){
+            broken = true;
+        }
  
+    int HalfTurns = FigureOutTheNumber(FEN, &FENStartOfRules, &broken);
+
+    // int FullMoves = FigureOutTheNumber(FEN, &FENStartOfRules, &broken);
+    //     if (FullMoves > 50){
+    //         broken = true;
+    //     }
+
+        std::cout << "\n\n\n" << "Here are the halfturns: " << HalfTurns << '\n';
+       // std::cout << "Here are the HalfMoves: " << FullMoves << "\n\n\n";
 
    if (broken == true){
         bool ItIsBroken = true;
@@ -154,17 +162,15 @@ int FigureOutPlayerTurn(std::string FEN, int FENStartOfRules){
     }
     //true (1) = white, false (2) = black
 }
-
+//Figures out the castling rights
 std::vector<char>FigureOutCastlingRights(std::string FEN, int FENStartOfRules){
     int i = FENStartOfRules;
     std::unordered_map<char, int> CastlingRightsMap = {{'K', 0}, {'Q', 0}, {'k', 0}, {'q', 0}};
     std::vector<char> CastlingRights;
     if (FEN[i+2] != ' '){
-        std::cout << "broken \n";
         return CastlingRights = {0};
     }
     if (FEN[i+3] == '-'){
-        std::cout << "No castling rights \n";
         return CastlingRights = {'-'};
     }
    for (int x = 0; x < 4; x++){
@@ -175,27 +181,24 @@ std::vector<char>FigureOutCastlingRights(std::string FEN, int FENStartOfRules){
         if(CastlingRightsMap.find(charadded) != CastlingRightsMap.end()){
             CastlingRightsMap[charadded]++;
             if (CastlingRightsMap[charadded] > 1){
-                std::cout << "broken \n";
                 return CastlingRights = {'0'};
             } 
                 CastlingRights.push_back(charadded);
         }
         else if (charadded != ' '){
-        std::cout << "broken \n";
         return CastlingRights = {'0'};
     }
 
 
     }
-    std::cout << "Castling rights: " << CastlingRights.size() << "\n";
     return CastlingRights;
 }
-
+//Figures out if and what the enpassant move is
 std::vector<char>FigureOutEnPassant(std::string FEN, int *FENStartOfRulesPointer){
     int i = *FENStartOfRulesPointer;
     std::vector<char> EnPassant;
     if (FEN[i] == '-'){
-        *FENStartOfRulesPointer = *FENStartOfRulesPointer + 2;
+        *FENStartOfRulesPointer = *FENStartOfRulesPointer + 1;
         return EnPassant = {'-'};
     }
 
@@ -210,7 +213,6 @@ std::vector<char>FigureOutEnPassant(std::string FEN, int *FENStartOfRulesPointer
         if(PossibleEnpassantNum.find(FEN[i+1]) != PossibleEnpassantNum.end()){
             EnPassant.push_back(FEN[i+1]);
             *FENStartOfRulesPointer = *FENStartOfRulesPointer + 2;
-            //std::cout << "\n\n\n" << "En Passant: " << EnPassant[0] << EnPassant[1] << "\n";
             return EnPassant;
         } 
         //this seems redundant but it is to make sure that the first char is a letter and the second char is a number.
@@ -221,6 +223,33 @@ std::vector<char>FigureOutEnPassant(std::string FEN, int *FENStartOfRulesPointer
     else {
         return EnPassant = {'0'};
     }
+}
+//Figures out what the HalfMoves is
+int FigureOutTheNumber(std::string FEN, int *FENStartOfRulesPointer, bool *brokenPointer){
+    int PosInFEN = *FENStartOfRulesPointer;
+    int HalfMovesTotal;
+    if (FEN[PosInFEN] == ' '){
+        PosInFEN++;
+        *FENStartOfRulesPointer = PosInFEN;
+    } else {
+        *brokenPointer = true;
+        return -1;
+    }
+    int HalfMoveFirstDigit = FEN[PosInFEN] - '0';
+    if (HalfMoveFirstDigit >= 0 || HalfMoveFirstDigit <= 9){
+        PosInFEN++;
+        if (FEN[PosInFEN] == ' '){
+            HalfMovesTotal = HalfMoveFirstDigit;
+            return HalfMovesTotal;
+        }
+        int HalfMoveSecondDigit = FEN[PosInFEN] - '0';
+        if (HalfMoveSecondDigit >= 0 && HalfMoveSecondDigit <= 9 ){
+            *FENStartOfRulesPointer = PosInFEN;
+            HalfMovesTotal = (HalfMoveFirstDigit * 10) + HalfMoveSecondDigit;
+        }
+    } 
+            *brokenPointer = true;
+            return -1;
 }
 
 //Checks to see if piece counts make sense. 1 king, no more than 8 pawns, etc.
@@ -328,7 +357,6 @@ bool FEN_Games::setValidity(bool broken)
 {
   return setValidityPrivate(broken);
 }
-
 bool FEN_Games::setValidityPrivate(bool broken)
 {
     if (broken == false){
@@ -422,7 +450,10 @@ void deletemyboard(char** myboard, int rows){
 
 
 
+    // std::cout << "\n\n\n\n" << "TEST block" << "\n";
+    // std::cout << FEN[PosInFEN];
+    // std::cout << "\n\n\n\n";
 
 
 
-
+ 
