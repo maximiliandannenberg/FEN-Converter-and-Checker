@@ -128,6 +128,10 @@ FEN_Games CreateFEN(std::string FEN){
             broken = true;
         }
 
+    if (FENStartOfRules != FEN.size()){
+        broken = true;
+    }
+
    if (broken == true){
         bool ItIsBroken = true;
         game.setValidity(ItIsBroken);
@@ -140,6 +144,7 @@ FEN_Games CreateFEN(std::string FEN){
         game.setCastlingRights(castlingrights);
         game.setEnPassant(EnPassant);
         game.setHalfMoves(HalfMoves);
+        game.setFullMoves(FullMoves);
     return game;
    }
     
@@ -158,6 +163,9 @@ int FigureOutPlayerTurn(std::string FEN, int FENStartOfRules){
     }
     //true (1) = white, false (2) = black
 }
+
+
+
 //Figures out the castling rights
 std::vector<char>FigureOutCastlingRights(std::string FEN, int FENStartOfRules){
     int i = FENStartOfRules;
@@ -223,7 +231,7 @@ std::vector<char>FigureOutEnPassant(std::string FEN, int *FENStartOfRulesPointer
 //Figures out what the HalfMoves is
 int FigureOutTheNumber(std::string FEN, int *FENStartOfRulesPointer, bool *brokenPointer){
     int PosInFEN = *FENStartOfRulesPointer;
-    int HalfMovesTotal;
+    int TotalDigit;
     if (FEN[PosInFEN] == ' '){
         PosInFEN++;
         *FENStartOfRulesPointer = PosInFEN;
@@ -231,20 +239,23 @@ int FigureOutTheNumber(std::string FEN, int *FENStartOfRulesPointer, bool *broke
         *brokenPointer = true;
         return -1;
     }
-    int HalfMoveFirstDigit = FEN[PosInFEN] - '0';
-    if (HalfMoveFirstDigit >= 0 || HalfMoveFirstDigit <= 9){
+    int FirstDigit = FEN[PosInFEN] - '0';
+    if (FirstDigit >= 0 || FirstDigit <= 9){
         PosInFEN++;
         *FENStartOfRulesPointer = PosInFEN;
         if (FEN[PosInFEN] == ' '){
-            HalfMovesTotal = HalfMoveFirstDigit;
-            return HalfMovesTotal;
+            TotalDigit = FirstDigit;
+            return TotalDigit;
         }
-        int HalfMoveSecondDigit = FEN[PosInFEN] - '0';
-        if (HalfMoveSecondDigit >= 0 && HalfMoveSecondDigit <= 9 ){
+        if (PosInFEN == FEN.size()){
+            return FirstDigit;
+        }
+        int SecondDigit = FEN[PosInFEN] - '0';
+        if (SecondDigit >= 0 && SecondDigit <= 9 ){
             PosInFEN++;
             *FENStartOfRulesPointer = PosInFEN;
-            HalfMovesTotal = (HalfMoveFirstDigit * 10) + HalfMoveSecondDigit;
-            return HalfMovesTotal;
+            TotalDigit = (FirstDigit * 10) + SecondDigit;
+            return TotalDigit;
         }
     } 
             *brokenPointer = true;
