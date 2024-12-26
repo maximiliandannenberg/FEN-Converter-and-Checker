@@ -120,17 +120,13 @@ FEN_Games CreateFEN(std::string FEN){
             broken = true;
         }
  
+    int HalfMoves = FigureOutTheNumber(FEN, &FENStartOfRules, &broken);
 
-
-    int HalfTurns = FigureOutTheNumber(FEN, &FENStartOfRules, &broken);
-
- std::cout << "\n\n\n" << "Here are the halfturns: " << HalfTurns << '\n';
 
     int FullMoves = FigureOutTheNumber(FEN, &FENStartOfRules, &broken);
         if (FullMoves > 50){
             broken = true;
         }
- std::cout << "Here are the HalfMoves: " << FullMoves << "\n\n\n";
 
    if (broken == true){
         bool ItIsBroken = true;
@@ -143,6 +139,7 @@ FEN_Games CreateFEN(std::string FEN){
         game.setPlayerTurn(playerTurn);
         game.setCastlingRights(castlingrights);
         game.setEnPassant(EnPassant);
+        game.setHalfMoves(HalfMoves);
     return game;
    }
     
@@ -404,6 +401,22 @@ std::vector<char> FEN_Games::setEnPassant(std::vector<char> EnPassant){
 }
 std::vector<char> FEN_Games::setEnPassantPrivate(std::vector<char> EnPassant){
     return En_Passant = EnPassant;
+}
+
+int FEN_Games::setHalfMoves(int HalfMoves){
+    return setHalfMovesPrivate (HalfMoves);  
+}
+
+int FEN_Games::setHalfMovesPrivate(int HalfMoves){
+    return Half_Moves = HalfMoves;
+}
+
+int FEN_Games::setFullMoves(int FullMoves){
+    return setFullMovesPrivate(FullMoves);
+}
+
+int FEN_Games::setFullMovesPrivate(int FullMoves){
+    return Full_Moves = FullMoves;
 }
 
 char** boardinitiliazer(int rows, int cols, FEN_Games game){

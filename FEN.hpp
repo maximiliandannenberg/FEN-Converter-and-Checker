@@ -11,8 +11,8 @@ class FEN_Games{
     bool FEN_broken;
     bool Playerturn;   //which color goes next black = false, white = true
     std::vector<char> Castling_Rights; 
-    int halfmoves = 0;
-    int Turns = 1;
+    int Half_Moves;
+    int Full_Moves;
     std::vector<char> En_Passant;
 
 
@@ -21,9 +21,11 @@ class FEN_Games{
     bool setPlayerTurnPrivate(bool playerturn);
     std::vector<char> setCastlingRightsPrivate(std::vector<char> CastlingRights);
     std::vector<char> setEnPassantPrivate(std::vector<char> EnPassant);
-
+    int setHalfMovesPrivate(int halfmoves);
+    int setFullMovesPrivate(int Fullmoves);
+   
+   
     public:
-
 
     FEN_Games(){};
 
@@ -41,6 +43,13 @@ class FEN_Games{
 
     std::vector<char> setEnPassant(std::vector<char> EnPassant);
     std::vector<char> getEnPassant() { return En_Passant; }
+
+    int setHalfMoves(int HalfMoves);
+    int getHalfMoves() {return Half_Moves;}
+
+    int setFullMoves(int FullMoves);
+    int getFullMoves(){return Full_Moves;}
+
 };
 
 FEN_Games CreateFEN(std::string FEN);

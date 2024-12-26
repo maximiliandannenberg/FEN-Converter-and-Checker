@@ -63,6 +63,8 @@ int main() {
         std::cout << "\nCastling Rights: " << game.getCastlingRights()[i];
     }
     std::cout << "\nEnPassant rights: " << game.getEnPassant()[0] << game.getEnPassant()[1];
+    std::cout << "\nHalf Moves: " << game.getHalfMoves();
+    std::cout << "\nFull Moves: " << game.getFullMoves();
 
 //set up board
 //Check whos turn it is
