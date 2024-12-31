@@ -24,9 +24,11 @@
                     }
                 }
             }
+
+            //I just wanted to test using a foreach loop here
             if (j <= 7){
-                for (int x = 0; x < FEN_black_pieces.size(); x++){
-                    if(myboard[i-1][j+1] == FEN_black_pieces[x]){
+                for (char x : FEN_black_pieces){ 
+                    if(myboard[i-1][j+1] == x){
                         move = std::to_string(i-1) + std::to_string(j+1);
                         //std::cout << "\n\n\n" << "This is a possible pawn move: " << moves;
                         moves.push_back(move);
