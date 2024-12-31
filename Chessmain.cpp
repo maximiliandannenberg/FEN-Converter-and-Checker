@@ -76,7 +76,7 @@ int main() {
 
     std::vector<std::string>CheckMoves = checkmoves(myboard, game);
 
-    std::cout << "\n\n\n" << CheckMoves[0];
+    std::cout << "\n\n\n" << CheckMoves[0] << CheckMoves[1] << CheckMoves[2];
 
     // myboard = CanEatKing(myboard);
 

@@ -227,7 +227,7 @@ std::vector<char>FigureOutEnPassant(std::string FEN, int *FENStartOfRulesPointer
         return EnPassant = {'0'};
     }
 }
-//Figures out what the HalfMoves is
+//Figures out what the HalfMoves is or Full move (this function is used for both)
 int FigureOutTheNumber(std::string FEN, int *FENStartOfRulesPointer, bool *brokenPointer){
     int PosInFEN = *FENStartOfRulesPointer;
     int TotalDigit;
@@ -262,6 +262,7 @@ int FigureOutTheNumber(std::string FEN, int *FENStartOfRulesPointer, bool *broke
 }
 
 //Checks to see if piece counts make sense. 1 king, no more than 8 pawns, etc.
+//In hindsight a better way to do this would be to have a hashmap with the piece and the amount of pieces.
 bool FEN_Check_Piece_Count(std::vector<char> FENvalue) {
 bool broken = false;
 int TotalWhitePieces = 0;

@@ -6,15 +6,35 @@
 
 
 
-     std::string WhiteCheckPawnMoves(char** myboard, int i, int j){
-        std::string moves;
-        if(myboard[i-1][j] == '0'){
-            moves = std::to_string(i-1) + std::to_string(j);
-            //std::cout << "\n\n\n" << "This is a possible pawn move: " << moves;
-            return moves;
-        }
+     std::vector<std::string> WhiteCheckPawnMoves(char** myboard, int i, int j){
+        std::string move;
+        std::vector<std::string> moves;
+        std::vector<char> FEN_black_pieces = {'p', 'r', 'n', 'b', 'q', 'k'};
 
-        return 0;
+        if(myboard[i-1][j] == '0'){
+            move = std::to_string(i-1) + std::to_string(j);
+            moves.push_back(move);
+        }
+            if (j >= 1){
+                for (int x = 0; x < FEN_black_pieces.size(); x++){
+                    if(myboard[i-1][j-1] == FEN_black_pieces[x]){
+                        move = std::to_string(i-1) + std::to_string(j-1);
+                        //std::cout << "\n\n\n" << "This is a possible pawn move: " << moves;
+                        moves.push_back(move);
+                    }
+                }
+            }
+            if (j <= 7){
+                for (int x = 0; x < FEN_black_pieces.size(); x++){
+                    if(myboard[i-1][j+1] == FEN_black_pieces[x]){
+                        move = std::to_string(i-1) + std::to_string(j+1);
+                        //std::cout << "\n\n\n" << "This is a possible pawn move: " << moves;
+                        moves.push_back(move);
+                    }
+                }
+            }
+        
+        return moves;
 
      }
 
@@ -32,32 +52,36 @@ std::vector<std::string>checkmoves(char** myboard, FEN_Games game){
     // std::string WhiteCheckedPawnMoves = CheckPawnMoves(myboard);
     
     std::vector<std::string> broken = {"broken"};
-    std::vector<std::string> moves;
+    std::vector<std::string> AllMoves;
 // if player's turn is white then only check for white pieces
     if (game.getPlayerTurn() == 1){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 if (myboard[i][j] == 'P'){
-                    std::string WhiteCheckedPawnMoves = WhiteCheckPawnMoves(myboard, i, j);
-                    moves.push_back(WhiteCheckedPawnMoves);                 
+                    std::vector<std::string> WhiteCheckedPawnMoves = WhiteCheckPawnMoves(myboard, i, j);
+                    for (int x = 0; x < WhiteCheckedPawnMoves.size(); x++){
+                        AllMoves.push_back(WhiteCheckedPawnMoves[x]);
+                    }                
                 }
             }
         }
     }
+
+    
     //If the players turn is 0, (black) then only check for black pieces.
     if (game.getPlayerTurn() == 0){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 if (myboard[i][j] == 'p'){
                     std::string BlackCheckedPawnMoves = BlackCheckPawnMoves(myboard, i, j);                
-                        moves.push_back(BlackCheckedPawnMoves);
+                        AllMoves.push_back(BlackCheckedPawnMoves);
                     }
                 }
             }
         }
 
 
-    return moves;
+    return AllMoves;
 
 }
 
