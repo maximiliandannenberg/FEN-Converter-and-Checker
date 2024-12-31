@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
-#include "FEN.hpp"
 #include "Piecemovement.hpp"
+#include "FEN.hpp"
+
 
 /* 
 Problems with the program:
@@ -71,6 +71,12 @@ int main() {
 //Ask player what he wants to move
 //check if the move is legal -> Once we know which moves are legal we implement an if statement checking that checks if the board is legal
 
+
+
+
+    std::vector<std::string>CheckMoves = checkmoves(myboard, game);
+
+    std::cout << "\n\n\n" << CheckMoves[0];
 
     // myboard = CanEatKing(myboard);
 

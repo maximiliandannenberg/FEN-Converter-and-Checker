@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
+
 class FEN_Games{
-    
 
     private:
     std::vector<char> FEN;
@@ -69,6 +69,7 @@ int FigureOutTheNumber(std::string FEN, int *FENStartOfRulesPointer, bool *broke
 char** boardinitiliazer(int rows, int cols, FEN_Games game);
 
 void printboard(char** myboard, int rows, int cols);
+
 
 void deletemyboard(char** myboard, int rows);
 

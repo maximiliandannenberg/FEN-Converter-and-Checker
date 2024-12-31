@@ -10,7 +10,6 @@
 //A broken FEN with an extra slash: 8//8/8/4p1K1/2k1P3/8/8/8
 //Fen broken at the start 8/g/8/4p1K1/2k1P3/8/8/8
 
-
 FEN_Games CreateFEN(std::string FEN){
 
     FEN_Games game;

@@ -1,9 +1,10 @@
 #ifndef PM_HPP
 #define PM_HPP
-
 #include <iostream>
+#include "FEN.hpp"
 
-char** CanEatKing(char** myboard);
+std::vector<std::string> checkmoves(char** myboard, FEN_Games game);
+
 
 
 #endif
