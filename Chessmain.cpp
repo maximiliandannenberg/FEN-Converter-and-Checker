@@ -44,14 +44,23 @@ int main() {
             if(game.CheckisValid() == 1){
                 std::cout << "invalid FEN, please submit a working one. \n";
                 CheckFEN = false;
-            } else {CheckFEN = true;}
+            } 
+            else 
+            {CheckFEN = true;}
 
         }
+
+
 
     int rows = 8;
     int cols = 8;
     char** myboard = boardinitiliazer(rows, cols, game);
     printboard(myboard, rows, cols);
+
+
+std::vector<std::string>CheckMoves = checkmoves(myboard, game);
+
+
 
 
     if (game.getPlayerTurn() == 0){
@@ -66,25 +75,29 @@ int main() {
     std::cout << "\nHalf Moves: " << game.getHalfMoves();
     std::cout << "\nFull Moves: " << game.getFullMoves();
 
+    std::cout << '\n';
+    for(const std::string& x : CheckMoves){
+        std::cout << x << ' ';
+    }
+    std::cout << '\n';
+
+
+    
+
 //set up board
 //Check whos turn it is
 //Ask player what he wants to move
 //check if the move is legal -> Once we know which moves are legal we implement an if statement checking that checks if the board is legal
 
 
+
+
+
+
     
 
 
-
-    std::vector<std::string>CheckMoves = checkmoves(myboard, game);
-
-
-
-    std::cout << '\n';
-    for(const std::string& x : CheckMoves){
-        std::cout << x << ' ';
-    }
-    std::cout << '\n';
+    
 
    // std::cout << "\n\n\n" << CheckMoves[0] << CheckMoves[1] << CheckMoves[2];
 

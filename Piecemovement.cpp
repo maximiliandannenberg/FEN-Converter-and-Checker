@@ -41,7 +41,6 @@
 
             
             if (j <= 7){
-
                 if(myboard[i-1][j+1] == 'k'){
                 game.setValidity(false);
                 std::cout << "\n" << "Error: illegal move, whites move and black king is in check";
@@ -55,25 +54,69 @@
                     }
                 }
             }
-        
         return moves;
-
      }
 
+   std::vector<std::string> BlackCheckPawnMoves(char** myboard, int i, int j, FEN_Games game){
 
-    std::string BlackCheckPawnMoves(char** myboard, int i, int j){
+        std::string move;
+        std::vector<std::string> moves;
+        std::vector<char> FEN_white_pieces = {'P', 'R', 'N', 'B', 'Q'};
 
+        std::string pawnposition = std::to_string(i) + std::to_string(j); 
+        std::string semicolon = ":";  
+        moves.push_back(pawnposition);
+        moves.push_back(semicolon);
 
+        //checks to see if the pawn can move forward
+        if(myboard[i+1][j] == '0' && i <= 6){
+            move = std::to_string(i+1) + std::to_string(j);
+            moves.push_back(move);
+        }
+        //checks to see if the pawn can move diagonally to the right
+            if (j >= 1){
+                if(myboard[i+1][j-1] == 'K'){
+                game.setValidity(false);
+                std::cout << "\n" << "Error: illegal move, whites move and black king is in check";
+                }
 
-        return 0;
+                for (int x = 0; x < FEN_white_pieces.size(); x++){
+                    if(myboard[i+1][j-1] == FEN_white_pieces[x]){
+                        move = std::to_string(i-1) + std::to_string(j-1);
+                    //    std::cout << "\n\n\n" << "This is a possible pawn move: " << move;
+                        moves.push_back(move);
+                    }
+                }
+            }
+            //checks to see if the pawn can move diagonally to the left
+            //I just wanted to test using a foreach loop here
+
+            
+            if (j <= 7){
+                if(myboard[i+1][j+1] == 'K'){
+                game.setValidity(false);
+                std::cout << "\n" << "Error: illegal move, whites move and black king is in check";
+                }
+
+                for (char x : FEN_white_pieces){ 
+                    if(myboard[i-1][j+1] == x){
+                        move = std::to_string(i-1) + std::to_string(j+1);
+                     //   std::cout << "\n\n\n" << "This is a possible pawn move: " << move;
+                        moves.push_back(move);
+                    }
+                }
+            }
+        return moves;
 
       }
+
+
+//check with these fens for legal pawn moves 
+// 8/8/8/3pppK1/2k1P3/8/7P/8 b - - 0 1
 
 std::vector<std::string>checkmoves(char** myboard, FEN_Games game){
 
     // std::string WhiteCheckedPawnMoves = CheckPawnMoves(myboard);
-    
-    std::vector<std::string> broken = {"broken"};
     std::vector<std::string> AllMoves;
 // if player's turn is white then only check for white pieces
     if (game.getPlayerTurn() == 1){
@@ -89,19 +132,20 @@ std::vector<std::string>checkmoves(char** myboard, FEN_Games game){
         }
     }
 
-    
+
     //If the players turn is 0, (black) then only check for black pieces.
     if (game.getPlayerTurn() == 0){
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 if (myboard[i][j] == 'p'){
-                    std::string BlackCheckedPawnMoves = BlackCheckPawnMoves(myboard, i, j);                
-                        AllMoves.push_back(BlackCheckedPawnMoves);
+                    std::vector<std::string> BlackCheckedPawnMoves = BlackCheckPawnMoves(myboard, i, j, game);                
+                    for (int x = 0; x < BlackCheckedPawnMoves.size(); x++){
+                        AllMoves.push_back(BlackCheckedPawnMoves[x]);
                     }
                 }
             }
         }
-
+    }
 
     return AllMoves;
 
