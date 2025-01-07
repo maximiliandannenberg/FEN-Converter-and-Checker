@@ -72,11 +72,21 @@ int main() {
 //check if the move is legal -> Once we know which moves are legal we implement an if statement checking that checks if the board is legal
 
 
+    
+
 
 
     std::vector<std::string>CheckMoves = checkmoves(myboard, game);
 
-    std::cout << "\n\n\n" << CheckMoves[0] << CheckMoves[1] << CheckMoves[2];
+
+
+    std::cout << '\n';
+    for(const std::string& x : CheckMoves){
+        std::cout << x << ' ';
+    }
+    std::cout << '\n';
+
+   // std::cout << "\n\n\n" << CheckMoves[0] << CheckMoves[1] << CheckMoves[2];
 
     // myboard = CanEatKing(myboard);
 
