@@ -73,7 +73,7 @@
             move = std::to_string(i+1) + std::to_string(j);
             moves.push_back(move);
         }
-        //checks to see if the pawn can move diagonally to the right
+        //checks to see if the pawn can move diagonally to the left
             if (j >= 1){
                 if(myboard[i+1][j-1] == 'K'){
                 game.setValidity(false);
@@ -82,25 +82,23 @@
 
                 for (int x = 0; x < FEN_white_pieces.size(); x++){
                     if(myboard[i+1][j-1] == FEN_white_pieces[x]){
-                        move = std::to_string(i-1) + std::to_string(j-1);
+                        move = std::to_string(i+1) + std::to_string(j-1);
                     //    std::cout << "\n\n\n" << "This is a possible pawn move: " << move;
                         moves.push_back(move);
                     }
                 }
             }
-            //checks to see if the pawn can move diagonally to the left
+            //checks to see if the pawn can move diagonally to the right
             //I just wanted to test using a foreach loop here
-
-            
-            if (j <= 7){
+            if (j <= 6){
                 if(myboard[i+1][j+1] == 'K'){
                 game.setValidity(false);
                 std::cout << "\n" << "Error: illegal move, whites move and black king is in check";
                 }
 
                 for (char x : FEN_white_pieces){ 
-                    if(myboard[i-1][j+1] == x){
-                        move = std::to_string(i-1) + std::to_string(j+1);
+                    if(myboard[i+1][j+1] == x){
+                        move = std::to_string(i+1) + std::to_string(j+1);
                      //   std::cout << "\n\n\n" << "This is a possible pawn move: " << move;
                         moves.push_back(move);
                     }
