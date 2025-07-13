@@ -475,7 +475,6 @@ void deletemyboard(char** myboard, int rows){
 
 
 
-
     // std::cout << "\n\n\n\n" << "TEST block" << "\n";
     // std::cout << FEN[PosInFEN];
     // std::cout << "\n\n\n\n";

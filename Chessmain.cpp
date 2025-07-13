@@ -30,6 +30,7 @@ segmentation fault due to return value from Piecemovement
 
 int main() {
 
+
         FEN_Games game;
 
         bool CheckFEN = false;
@@ -58,9 +59,6 @@ int main() {
     printboard(myboard, rows, cols);
 
 
-std::vector<std::string>CheckMoves = checkmoves(myboard, game);
-
-
 
 
     if (game.getPlayerTurn() == 0){
@@ -75,11 +73,34 @@ std::vector<std::string>CheckMoves = checkmoves(myboard, game);
     std::cout << "\nHalf Moves: " << game.getHalfMoves();
     std::cout << "\nFull Moves: " << game.getFullMoves();
 
-    std::cout << '\n';
-    for(const std::string& x : CheckMoves){
-        std::cout << x << ' ';
+
+
+   std::vector<char**> FutureBoards = CalculateFutureBoards(myboard, game);
+
+
+
+   // std::vector<std::string>CheckMoves = checkmoves(myboard, game);
+
+
+        std::cout << '\n' << "Legal positions following ";
+        if (game.getPlayerTurn() == 0){
+            std::cout << "Black";
+        } else {
+            std::cout << "White";
+        }
+        std::cout << "'s move: " << '\n';
+
+
+    if(FutureBoards.empty()){
+        std::cout << '\n' << "No more legal moves. Stalemate";
+    } else {
+        for(char** x : FutureBoards){
+            printboard(x, rows, cols);
+        }
+        std::cout << '\n';
+
     }
-    std::cout << '\n';
+    
 
 
     

@@ -5,6 +5,7 @@
 
 std::vector<std::string> checkmoves(char** myboard, FEN_Games game);
 
+std::vector<char**> CalculateFutureBoards(char** myboard, FEN_Games game);
 
 
 #endif
